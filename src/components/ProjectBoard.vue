@@ -1,9 +1,5 @@
 <template>
   <div> 
-    <md-button class="md-primary" @click="add()">
-      <md-icon>add</md-icon>
-      Neues Projekt
-    </md-button>
     <div class="lane" v-for="project in projects" :key="project.id">
       <project-lane :name="project.name" v-on:deleteProject="deleteProject(project)"></project-lane>
     </div>
@@ -17,6 +13,7 @@
 <script>
 import ProjectLane from './ProjectLane.vue'
 import uuidv1 from 'uuid'
+import { mapState } from 'vuex'
 export default {
   name: 'ProjectBoard',
   components: {
@@ -24,13 +21,12 @@ export default {
   },
   data () {
     return {
-      projects: [
-        { name: 'Projekt 1' },
-        { name: 'Projekt 2' },
-        { name: 'Projekt 3' }
-      ]
+
     }
   },
+  computed: mapState ({
+    projects: state => state.projects
+  }),
   methods: {
     add: function() {
       this.projects.push({ id: uuidv1(), name: 'Projekt 4 '})
