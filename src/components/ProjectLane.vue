@@ -3,15 +3,15 @@
       <div class="md-layout-item md-size-10">
         <md-card>
           <md-card-header>
-            <div class="md-title">Projekt 1</div>
+            <div class="md-title">{{name}}</div>
           </md-card-header>
           <md-card-actions>
             <md-button class="md-icon-button" @click="add()">
-                <md-icon>person_add</md-icon>
-              </md-button>
-            <md-button class="md-icon-button">
-                <md-icon>delete</md-icon>
-              </md-button>
+              <md-icon>person_add</md-icon>
+            </md-button>
+            <md-button class="md-icon-button" @click="$emit('deleteProject')">
+              <md-icon>delete</md-icon>
+            </md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -19,10 +19,8 @@
         <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
           <md-card class="dragcard" v-for="element in myArray" :key="element.id" >
             <md-card-header>
-              <div v-if="element.id !== editId" class="md-title">{{element.name}}</div>
-              <div v-if="element.id === editId" class="md-title">
-                  <md-input  class="md-mini" v-model="element.name"></md-input>
-              </div>
+              <div v-if="element.id !== editId" class="md-title">{{element.name}}</div>  
+              <input v-if="element.id === editId" v-model="element.name" /> 
             </md-card-header>
             <md-card-actions>
               <md-button v-if="element.id !== editId" class="md-icon-button" @click="edit(element)">
@@ -48,9 +46,16 @@
 import draggable from 'vuedraggable'
 import uuidv1 from 'uuid'
 export default {
-    components: {
-        draggable
-    },
+  components: {
+      draggable
+  },
+  props: {
+    name: {
+      type: String,
+      required: true,
+      default: 'no name'
+    }
+  },
   data () {
     return {
       editId: 0,
@@ -75,7 +80,7 @@ export default {
     edit: function(element) {
         this.editId = element.id;
         this.editOld = element.name;
-    },
+      },
     save: function() {
         this.editId = 0;
     },
@@ -87,7 +92,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
   .hat-list {
     text-align: left;
   }
