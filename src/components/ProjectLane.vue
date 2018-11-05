@@ -17,7 +17,7 @@
       </div>
       <div class="md-layout-item md-size-80">
         <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
-          <md-card class="dragcard" v-for="element in myArray" :key="element.id" >
+          <md-card class="dragcard md-with-hover" v-for="element in myArray" :key="element.id" >
             <md-card-header>
               <div class="md-headline">{{element.name}}</div>
             </md-card-header>
@@ -33,11 +33,11 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
-import uuidv1 from 'uuid'
+import draggable from "vuedraggable";
+import uuidv1 from "uuid";
 export default {
   components: {
-      draggable
+    draggable
   },
   props: {
     name: {
@@ -45,36 +45,70 @@ export default {
       required: true
     }
   },
-  data () {
+  data() {
     return {
-      myArray: [ 
-        { id: uuidv1(), name: 'Robert' }, 
-        { id: uuidv1(), name: 'Tomi' },
-        { id: uuidv1(), name: 'Sven' },
-        { id: uuidv1(), name: 'Sven' },
-        { id: uuidv1(), name: 'Robert' }
+      myArray: [
+        { id: uuidv1(), name: "Robert" },
+        { id: uuidv1(), name: "Tomi" },
+        { id: uuidv1(), name: "Sven" },
+        { id: uuidv1(), name: "Sven" },
+        { id: uuidv1(), name: "Robert" }
       ]
-    }
+    };
   },
   methods: {
     add: function() {
-      this.myArray.push( {id: uuidv1(), name: 'Neu' })
+      this.myArray.push({ id: uuidv1(), name: "Neu" });
     },
     remove: function(element) {
-        var index = this.myArray.indexOf(element);
-        this.myArray.splice(index, 1);
+      var index = this.myArray.indexOf(element);
+      this.myArray.splice(index, 1);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-  .dragcard {
-    display: inline-block;
-    width: 150px;
-  }
+.dragcard {
+  display: inline-block;
+  width: 150px;
+}
 
-  .search {
-    max-width: 500px;
+.search {
+  max-width: 500px;
+}
+
+.dragcard .md-icon-button {
+  opacity: 0;
+  animation-name: fadeOutOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.3;
+}
+
+.dragcard:hover .md-icon-button {
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.3s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
   }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutOpacity {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 </style>
