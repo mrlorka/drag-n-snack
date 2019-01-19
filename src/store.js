@@ -7,9 +7,20 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     projects: [
-      { id: uuidv1(), name: 'Projekt 1' },
+      { id: uuidv1(), name: 'Projekt 1', members: [{ id: uuidv1(), name: 'Robert' }] },
       { id: uuidv1(), name: 'Projekt 2' },
       { id: uuidv1(), name: 'Projekt C' }
+    ],
+    freeMembers: [
+      { id: uuidv1(), name: 'Robert' },
+      { id: uuidv1(), name: 'Robert' },
+      { id: uuidv1(), name: 'Robert' },
+      { id: uuidv1(), name: 'Robert' },
+      { id: uuidv1(), name: 'Tomi' },
+      { id: uuidv1(), name: 'Tomi' },
+      { id: uuidv1(), name: 'Tomi' },
+      { id: uuidv1(), name: 'Sven' },
+      { id: uuidv1(), name: 'Sven' }
     ]
   },
   mutations: {

@@ -3,7 +3,7 @@
       <div class="md-layout-item md-size-10">
         <md-card>
           <md-card-header>
-            <div class="md-headline">{{name}}</div>
+            <div class="md-headline">{{project.name}}</div>
           </md-card-header>
           <md-card-actions>
             <md-button class="md-icon-button" @click="$emit('deleteProject')">
@@ -16,13 +16,13 @@
         </md-card>
       </div>
       <div class="md-layout-item md-size-80">
-        <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
-          <md-card class="dragcard md-with-hover" v-for="element in myArray" :key="element.id" >
+        <draggable v-model="project.members" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+          <md-card class="dragcard md-with-hover" v-for="member in project.members" :key="member.id" >
             <md-card-header>
-              <div class="md-headline">{{element.name}}</div>
+              <div class="md-headline">{{member.name}}</div>
             </md-card-header>
             <md-card-actions>
-              <md-button class="md-icon-button" @click="remove(element)">
+              <md-button class="md-icon-button" @click="remove(member)">
                 <md-icon>event_seat</md-icon>
               </md-button>
             </md-card-actions>
@@ -40,29 +40,22 @@ export default {
     draggable
   },
   props: {
-    name: {
-      type: String,
+    project: {
+      type: Object,
       required: true
     }
   },
   data() {
     return {
-      myArray: [
-        { id: uuidv1(), name: "Robert" },
-        { id: uuidv1(), name: "Tomi" },
-        { id: uuidv1(), name: "Sven" },
-        { id: uuidv1(), name: "Sven" },
-        { id: uuidv1(), name: "Robert" }
-      ]
     };
   },
   methods: {
     add: function() {
-      this.myArray.push({ id: uuidv1(), name: "Neu" });
+      this.project.members.push({ id: uuidv1(), name: "Neu" });
     },
     remove: function(element) {
-      var index = this.myArray.indexOf(element);
-      this.myArray.splice(index, 1);
+      var index = this.project.members.indexOf(element);
+      this.project.members.splice(index, 1);
     }
   }
 };
