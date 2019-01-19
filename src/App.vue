@@ -24,6 +24,11 @@
               <span class="md-list-item-text">Projekte</span>
           </md-list-item>
           
+          <md-list-item to="/members" @click="menuVisible = false">
+              <md-icon>face</md-icon>
+              <span class="md-list-item-text">Team</span>
+          </md-list-item>
+
           <md-list-item to="/about" @click="menuVisible = false">
               <md-icon>info</md-icon>
               <span class="md-list-item-text">Info</span>
