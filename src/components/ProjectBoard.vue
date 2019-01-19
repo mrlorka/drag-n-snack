@@ -5,7 +5,7 @@
     </div>
     <md-divider></md-divider>
     <div class="lane">
-      <project-lane :project="bankProject"></project-lane>
+      <project-lane :project="bankProject"  :allow-project-deletion="false"></project-lane>
     </div>
   </div>
 </template>
@@ -30,10 +30,17 @@ export default {
   } ,
   methods: {
     deleteProject: function(project) {
-      //TODO move members to bank
-      let deleteCandidate = this.projects.find(element => project.id === element.id)
-      var index = this.projects.indexOf(deleteCandidate);
-      this.projects.splice(index, 1);
+      let moveActions = []
+      project.members.forEach(member => {
+        let payload = { project: project, member: member } 
+        moveActions.push(this.$store.dispatch('moveMemberToBank', payload))
+      });
+      Promise.all(moveActions)
+      .then(() => {
+        this.$store.commit('removeProject', project.id )
+      }).catch((err) => {
+        alert(err)
+      });
     }
   }
 }

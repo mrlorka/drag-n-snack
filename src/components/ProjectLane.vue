@@ -6,11 +6,8 @@
             <div class="md-headline">{{project.name}}</div>
           </md-card-header>
           <md-card-actions>
-            <md-button class="md-icon-button" @click="$emit('deleteProject')">
+            <md-button v-if="allowProjectDeletion" class="md-icon-button" @click="$emit('deleteProject')">
               <md-icon>delete</md-icon>
-            </md-button>
-            <md-button class="md-icon-button md-primary" @click="add()">
-              <md-icon>person_add</md-icon>
             </md-button>
           </md-card-actions>
         </md-card>
@@ -34,7 +31,6 @@
 
 <script>
 import draggable from "vuedraggable";
-import uuidv1 from "uuid";
 export default {
   components: {
     draggable
@@ -43,6 +39,11 @@ export default {
     project: {
       type: Object,
       required: true
+    },
+    allowProjectDeletion: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   data() {
@@ -50,9 +51,6 @@ export default {
     };
   },
   methods: {
-    add: function() {
-      this.project.members.push({ id: uuidv1(), name: "Neu" });
-    },
     toBank: function(member) {
       let payload = { project: this.project, member: member } 
       this.$store.dispatch('moveMemberToBank', payload)
