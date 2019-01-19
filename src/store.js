@@ -8,20 +8,29 @@ export default new Vuex.Store({
   state: {
     projects: [
       { id: uuidv1(), name: 'Projekt 1', members: [{ id: uuidv1(), name: 'Robert' }] },
-      { id: uuidv1(), name: 'Projekt 2' },
-      { id: uuidv1(), name: 'Projekt C' }
+      { id: uuidv1(), name: 'Projekt 2', members: [] },
+      { id: uuidv1(), name: 'Projekt C', members: [] }
     ],
-    freeMembers: [
-      { id: uuidv1(), name: 'Robert' },
-      { id: uuidv1(), name: 'Robert' },
-      { id: uuidv1(), name: 'Robert' },
-      { id: uuidv1(), name: 'Robert' },
-      { id: uuidv1(), name: 'Tomi' },
-      { id: uuidv1(), name: 'Tomi' },
-      { id: uuidv1(), name: 'Tomi' },
-      { id: uuidv1(), name: 'Sven' },
-      { id: uuidv1(), name: 'Sven' }
-    ]
+    bankProject: {
+      id: uuidv1(),
+      name: 'Bank',
+      members: [
+        { id: uuidv1(), name: 'Robert' },
+        { id: uuidv1(), name: 'Robert' },
+        { id: uuidv1(), name: 'Robert' },
+        { id: uuidv1(), name: 'Robert' },
+        { id: uuidv1(), name: 'Tomi' },
+        { id: uuidv1(), name: 'Tomi' },
+        { id: uuidv1(), name: 'Tomi' },
+        { id: uuidv1(), name: 'Sven' },
+        { id: uuidv1(), name: 'Sven' }
+      ]
+    }
+  },
+  getters: {
+    boardProjects: state =>  {
+      return state.projects.concat([state.bankProject])
+    }
   },
   mutations: {
     addProject (state) {
@@ -31,6 +40,13 @@ export default new Vuex.Store({
       let item = state.projects.find(p=>p.id === id)
       let index = state.projects.indexOf(item)
       state.projects.splice(index, 1)
+    },
+    updateMembers(state, payload) {
+      if (state.bankProject.id === payload.project.id) {
+        state.bankProject.members = payload.newMembers
+      }else {
+        state.projects.find(p=>p.id===payload.project.id).members = payload.newMembers
+      }
     }
   },
   actions: {

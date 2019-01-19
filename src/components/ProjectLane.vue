@@ -16,8 +16,8 @@
         </md-card>
       </div>
       <div class="md-layout-item md-size-80">
-        <draggable v-model="project.members" :options="{group:'people'}" @start="drag=true" @end="drag=false">
-          <md-card class="dragcard md-with-hover" v-for="member in project.members" :key="member.id" >
+        <draggable class="draglist" v-model="members" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+          <md-card class="dragcard md-with-hover" v-for="member in members" :key="member.id" >
             <md-card-header>
               <div class="md-headline">{{member.name}}</div>
             </md-card-header>
@@ -57,11 +57,26 @@ export default {
       var index = this.project.members.indexOf(element);
       this.project.members.splice(index, 1);
     }
+  }, 
+  computed: {
+    members: {
+      get() {
+        return this.$store.getters.boardProjects.find(p=>p.id === this.project.id).members
+      },
+      set(value) {
+        let payload = { project: this.project, newMembers: value }
+        this.$store.commit('updateMembers', payload )
+      }
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.draglist {
+  // min-height ist nötig, damit es eine dropzone gibt, auch wenn die Liste leer ist
+  min-height: 150px;
+}
 .dragcard {
   display: inline-block;
   width: 150px;

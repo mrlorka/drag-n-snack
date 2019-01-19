@@ -25,14 +25,8 @@ export default {
   computed: {
     ...mapState ({
       projects: state => state.projects,
-      freeMembers: state => state.freeMembers
-    }),
-    bankProject: function() {
-      return { 
-        name: 'Bank',
-        members: this.freeMembers
-      }
-    }
+      bankProject: state => state.bankProject
+    })
   } ,
   methods: {
     deleteProject: function(project) {
