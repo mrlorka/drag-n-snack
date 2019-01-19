@@ -47,6 +47,22 @@ export default new Vuex.Store({
       }else {
         state.projects.find(p=>p.id===payload.project.id).members = payload.newMembers
       }
+    },
+    removeProjectMember(state, payload) {
+      let project = state.bankProject
+      if (state.bankProject.id !== payload.project.id) {
+        project = state.projects.find(p=>p.id===payload.project.id)
+      }
+      let memberItem = project.members.find(m=>m.id === payload.member.Id)
+      let memberIndex = project.members.indexOf(memberItem)
+      project.members.splice(memberIndex, 1)
+    },
+    addProjectMember(state, payload) {
+      let project = state.bankProject
+      if (state.bankProject.id !== payload.project.id) {
+        project = state.projects.find(p=>p.id===payload.project.id)
+      }
+      project.members.push(payload.member)
     }
   },
   actions: {
@@ -55,6 +71,11 @@ export default new Vuex.Store({
     },
     removeProject (context, id) {
       context.commit('removeProject', id)
+    },
+    moveMemberToBank(context, payload) {
+      context.commit('removeProjectMember', payload)
+      let payloadTo = { project: context.state.bankProject, member: payload.member }
+      context.commit('addProjectMember', payloadTo)
     }
   }
 })

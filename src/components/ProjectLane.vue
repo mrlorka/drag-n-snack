@@ -22,7 +22,7 @@
               <div class="md-headline">{{member.name}}</div>
             </md-card-header>
             <md-card-actions>
-              <md-button class="md-icon-button" @click="remove(member)">
+              <md-button class="md-icon-button" @click="toBank(member)">
                 <md-icon>event_seat</md-icon>
               </md-button>
             </md-card-actions>
@@ -53,9 +53,9 @@ export default {
     add: function() {
       this.project.members.push({ id: uuidv1(), name: "Neu" });
     },
-    remove: function(element) {
-      var index = this.project.members.indexOf(element);
-      this.project.members.splice(index, 1);
+    toBank: function(member) {
+      let payload = { project: this.project, member: member } 
+      this.$store.dispatch('moveMemberToBank', payload)
     }
   }, 
   computed: {
