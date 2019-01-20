@@ -25,7 +25,11 @@ export default new Vuex.Store({
         { id: uuidv1(), name: 'Sven' },
         { id: uuidv1(), name: 'Sven' }
       ]
-    }
+    },
+    members: [
+      { id: uuidv1(), name: 'Hans' },
+      { id: uuidv1(), name: 'Gans' }
+    ]
   },
   getters: {
     boardProjects: state =>  {
@@ -40,6 +44,14 @@ export default new Vuex.Store({
       let item = state.projects.find(p=>p.id === id)
       let index = state.projects.indexOf(item)
       state.projects.splice(index, 1)
+    },
+    addMember (state) {
+      state.members.push({ id: uuidv1(), name: '' })
+    },
+    removeMember (state, id) {
+      let item = state.members.find(p=>p.id === id)
+      let index = state.members.indexOf(item)
+      state.members.splice(index, 1)
     },
     updateMembers(state, payload) {
       if (state.bankProject.id === payload.project.id) {
