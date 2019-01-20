@@ -34,6 +34,9 @@ export default {
             'addProject', 
             'removeProject'
         ])
+    },
+    mounted: function() {
+      this.$store.dispatch('loadProjects')
     }
 }
 </script>

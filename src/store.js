@@ -1,16 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import uuidv1 from 'uuid'
+import VueResource from 'vue-resource'
 
 Vue.use(Vuex)
+Vue.use(VueResource)
 
 export default new Vuex.Store({
   state: {
-    projects: [
-      { id: uuidv1(), name: 'Projekt 1', members: [{ id: uuidv1(), name: 'Robert' }] },
-      { id: uuidv1(), name: 'Projekt 2', members: [] },
-      { id: uuidv1(), name: 'Projekt C', members: [] }
-    ],
+    projects: [],
     bankProject: {
       id: uuidv1(),
       name: 'Bank',
@@ -37,6 +35,11 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setProjects (state, projects) {
+      projects.forEach(project => {
+        state.projects.push(project)
+      });
+    },
     addProject (state) {
       state.projects.push({ id: uuidv1(), name: '' })
     },
@@ -78,6 +81,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    loadProjects (context) {
+      Vue.http.get('http://localhost:3000/projects')
+      .then((result) => {
+        context.commit('setProjects', result.data)
+      }).catch((err) => {
+        alert('Fehler beim Laden der Projekte: ' + err)
+      });
+    },
     addProject (context) {
       context.commit('addProject')
     },
