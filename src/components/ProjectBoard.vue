@@ -37,6 +37,7 @@ export default {
       Promise.all(moveActions)
         .then(() => {
           this.$store.commit("removeProject", project.id);
+          this.$store.commit("removeProjectFromBoard", project.id);
         })
         .catch(err => {
           alert(err);

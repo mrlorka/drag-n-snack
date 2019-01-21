@@ -48,6 +48,11 @@ export default new Vuex.Store({
       let index = state.projects.indexOf(item);
       state.projects.splice(index, 1);
     },
+    removeProjectFromBoard(state, id) {
+      let item = state.projectsWithMembers.find(p => p.id === id);
+      let index = state.projectsWithMembers.indexOf(item);
+      state.projectsWithMembers.splice(index, 1);
+    },
     addMember(state) {
       state.members.push({ id: uuidv1(), name: "" });
     },
