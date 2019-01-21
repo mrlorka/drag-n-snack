@@ -1,8 +1,7 @@
 <template>
   <div class="projects">
     <md-button class="md-primary md-raised" @click="addProject()">
-      <md-icon>add</md-icon>
-      Neues Projekt
+      <md-icon>add</md-icon>Neues Projekt
     </md-button>
     <md-list>
       <md-list-item v-for="project in projects" :key="project.id">
@@ -24,25 +23,23 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations } from "vuex";
 export default {
-    computed: mapState({
-        projects: state => state.projects
-    }),
-    methods: {
-        ...mapActions([
-            'addProject', 
-            'removeProject'
-        ])
-    },
-    mounted: function() {
-      this.$store.dispatch('loadProjects')
-    }
-}
+  computed: mapState({
+    projects: state => state.projects
+  }),
+  methods: {
+    //TODO beim Löschen des Projekts auch die Member auf die Bank setzen
+    ...mapMutations(["addProject", "removeProject"])
+  },
+  mounted: function() {
+    this.$store.dispatch("loadProjects");
+  }
+};
 </script>
 <style scoped>
-    .md-list {
-        width: 300px;
-    }
+.md-list {
+  width: 300px;
+}
 </style>
 

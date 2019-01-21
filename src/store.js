@@ -11,7 +11,7 @@ export default new Vuex.Store({
     projects: [],
     members: [],
     projectsWithMembers: [],
-    bankProject: { }
+    bankProject: {}
   },
   getters: {
     boardProjects: state => {
@@ -20,11 +20,13 @@ export default new Vuex.Store({
   },
   mutations: {
     setProjects(state, projects) {
+      state.projects.splice(0, state.projects.length);
       projects.forEach(project => {
         state.projects.push(project);
       });
     },
     setProjectsWithMembers(state, projects) {
+      state.projectsWithMembers.splice(0, state.projectsWithMembers.length);
       projects.forEach(project => {
         state.projectsWithMembers.push(project);
       });
@@ -33,6 +35,7 @@ export default new Vuex.Store({
       state.bankProject = bankProject;
     },
     setMembers(state, members) {
+      state.members.splice(0, state.members.length);
       members.forEach(member => {
         state.members.push(member);
       });
@@ -62,6 +65,15 @@ export default new Vuex.Store({
         ).members = payload.newMembers;
       }
     },
+    addProjectMember(state, payload) {
+      let project = state.bankProject;
+      if (state.bankProject.id !== payload.project.id) {
+        project = state.projectsWithMembers.find(
+          p => p.id === payload.project.id
+        );
+      }
+      project.members.push(payload.member);
+    },
     removeProjectMember(state, payload) {
       let project = state.bankProject;
       if (state.bankProject.id !== payload.project.id) {
@@ -72,15 +84,6 @@ export default new Vuex.Store({
       let memberItem = project.members.find(m => m.id === payload.member.Id);
       let memberIndex = project.members.indexOf(memberItem);
       project.members.splice(memberIndex, 1);
-    },
-    addProjectMember(state, payload) {
-      let project = state.bankProject;
-      if (state.bankProject.id !== payload.project.id) {
-        project = state.projectsWithMembers.find(
-          p => p.id === payload.project.id
-        );
-      }
-      project.members.push(payload.member);
     }
   },
   actions: {
@@ -114,12 +117,6 @@ export default new Vuex.Store({
         .catch(err => {
           alert("Fehler beim Laden der Teammitglieder: " + err);
         });
-    },
-    addProject(context) {
-      context.commit("addProject");
-    },
-    removeProject(context, id) {
-      context.commit("removeProject", id);
     },
     moveMemberToBank(context, payload) {
       context.commit("removeProjectMember", payload);
