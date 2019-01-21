@@ -28,6 +28,9 @@ export default {
             'addMember', 
             'removeMember'
         ])
+    },
+    mounted: function() {
+      this.$store.dispatch('loadMembers')
     }
 }
 </script>
