@@ -20,11 +20,19 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
 export default {
-  computed: mapState({
-    members: state => state.members
-  }),
+  computed: {
+    members: {
+      get() {
+        return this.$store.state.members;
+      },
+      set(value) {
+        // stattdessen computed deep watch und bestimmung was sich geändert hat. Dafür dann put request absetzen
+        this.$store.dispatch("setMembers", value);
+      }
+    }
+  },
   methods: {
     ...mapActions(["addMember", "removeMember"])
   },

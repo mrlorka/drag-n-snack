@@ -87,7 +87,7 @@ export default {
       },
       set(value) {
         let payload = { project: this.project, newMembers: value };
-        this.$store.commit("updateMembers", payload);
+        this.$store.dispatch("updateProjectMembers", payload);
       }
     }
   }

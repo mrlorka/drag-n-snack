@@ -1,10 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import uuidv1 from "uuid";
 import VueResource from "vue-resource";
 
 Vue.use(Vuex);
 Vue.use(VueResource);
+const api = "http://localhost:3000";
 
 export default new Vuex.Store({
   state: {
@@ -40,8 +40,8 @@ export default new Vuex.Store({
         state.members.push(member);
       });
     },
-    addProject(state) {
-      state.projects.push({ id: uuidv1(), name: "" });
+    addProject(state, project) {
+      state.projects.push(project);
     },
     removeProject(state, id) {
       let item = state.projects.find(p => p.id === id);
@@ -61,14 +61,12 @@ export default new Vuex.Store({
       let index = state.members.indexOf(item);
       state.members.splice(index, 1);
     },
-    updateMembers(state, payload) {
-      if (state.bankProject.id === payload.project.id) {
-        state.bankProject.members = payload.newMembers;
-      } else {
-        state.projectsWithMembers.find(
-          p => p.id === payload.project.id
-        ).members = payload.newMembers;
-      }
+    updateBankProjectMembers(state, payload) {
+      state.bankProject.members = payload.newMembers;
+    },
+    updateProjectMembers(state, payload) {
+      state.projectsWithMembers.find(p => p.id === payload.project.id).members =
+        payload.newMembers;
     },
     addProjectMember(state, payload) {
       let project = state.bankProject;
@@ -94,7 +92,7 @@ export default new Vuex.Store({
   actions: {
     loadProjects(context) {
       Vue.http
-        .get("http://localhost:3000/projects")
+        .get(api + "/projects")
         .then(result => {
           context.commit("setProjects", result.data);
         })
@@ -104,7 +102,7 @@ export default new Vuex.Store({
     },
     loadBoard(context) {
       Vue.http
-        .get("http://localhost:3000/board")
+        .get(api + "/board")
         .then(result => {
           context.commit("setProjectsWithMembers", result.data.projects);
           context.commit("setBankProject", result.data.bankProject);
@@ -115,7 +113,7 @@ export default new Vuex.Store({
     },
     loadMembers(context) {
       Vue.http
-        .get("http://localhost:3000/members")
+        .get(api + "/members")
         .then(result => {
           context.commit("setMembers", result.data);
         })
@@ -124,6 +122,8 @@ export default new Vuex.Store({
         });
     },
     moveMemberToBank(context, payload) {
+      //TODO move member in database
+      //??
       context.commit("removeProjectMember", payload);
       let payloadTo = {
         project: context.state.bankProject,
@@ -131,19 +131,105 @@ export default new Vuex.Store({
       };
       context.commit("addProjectMember", payloadTo);
     },
+    setMembers(context, members) {
+      //TODO update members in database
+      //put members
+      Vue.http
+        .put(api + "/members", members)
+        .then(result => {
+          // eslint-disable-next-line
+          console.log(result);
+        })
+        .catch(err => {
+          alert("error handling database: " + err);
+        });
+      context.commit("setMembers", members);
+    },
     addMember(context) {
       //TODO write new member without name and capacity of 4 to database
       // db method returns new member
+      //post members
       let member = {
         id: "cd122fd8-7afd-4a20-be56-e0292af640da",
         name: "Neuer Dude",
         capacity: 4
       };
+      Vue.http
+        .post(api + "/members", member)
+        .then(result => {
+          // eslint-disable-next-line
+          console.log(result);
+        })
+        .catch(err => {
+          alert("error handling database: " + err);
+        });
       context.commit("addMember", member);
     },
     removeMember(context, id) {
+      //TODO remove member from all projects in database
       //TODO remove member from database
+      //delete members
+      Vue.http
+        .delete(api + "/members/" + id)
+        .then(result => {
+          // eslint-disable-next-line
+          console.log(result);
+        })
+        .catch(err => {
+          alert("error handling database: " + err);
+        });
       context.commit("removeMember", id);
+    },
+    setProjects(context, projects) {
+      //TODO update projects in database
+      //put projects
+      context.commit("setProjects", projects);
+    },
+    addProject(context) {
+      //TODO write new project without name to database
+      // db method returns new project
+      //post projects
+      let project = {
+        id: "8c111c2f-775f-459a-9a8e-69a2aa8c9cd2",
+        name: "Tesla ablösen",
+        members: []
+      };
+      Vue.http
+        .post(api + "/projects", project)
+        .then(result => {
+          // eslint-disable-next-line
+          console.log(result);
+        })
+        .catch(err => {
+          alert("error handling database: " + err);
+        });
+      context.commit("addProject", project);
+    },
+    removeProject(context, id) {
+      //TODO move members to bank project in database
+      //TODO remove project from database
+      //delete project
+      Vue.http
+        .delete(api + "/projects/" + id)
+        .then(result => {
+          // eslint-disable-next-line
+          console.log(result);
+        })
+        .catch(err => {
+          alert("error handling database: " + err);
+        });
+      context.commit("removeProject", id);
+    },
+    updateProjectMembers(context, payload) {
+      if (context.state.bankProject.id === payload.project.id) {
+        //TODO update Bank project members in database
+        //put projectmembers
+        context.commit("updateBankProjectMembers", payload);
+      } else {
+        // TODO update project members in database
+        //put projectmembers
+        context.commit("updateProjectMembers", payload);
+      }
     }
   }
 });

@@ -23,11 +23,18 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
 export default {
-  computed: mapState({
-    projects: state => state.projects
-  }),
+  computed: {
+    projects: {
+      get() {
+        return this.$store.state.projects;
+      },
+      set(value) {
+        this.$store.dispatch("setProjects", value);
+      }
+    }
+  },
   methods: {
     //TODO beim Löschen des Projekts auch die Member auf die Bank setzen
     ...mapActions(["addProject", "removeProject"])
