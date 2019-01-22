@@ -53,8 +53,8 @@ export default new Vuex.Store({
       let index = state.projectsWithMembers.indexOf(item);
       state.projectsWithMembers.splice(index, 1);
     },
-    addMember(state) {
-      state.members.push({ id: uuidv1(), name: "" });
+    addMember(state, member) {
+      state.members.push(member);
     },
     removeMember(state, id) {
       let item = state.members.find(p => p.id === id);
@@ -130,6 +130,20 @@ export default new Vuex.Store({
         member: payload.member
       };
       context.commit("addProjectMember", payloadTo);
+    },
+    addMember(context) {
+      //TODO write new member without name and capacity of 4 to database
+      // db method returns new member
+      let member = {
+        id: "cd122fd8-7afd-4a20-be56-e0292af640da",
+        name: "Neuer Dude",
+        capacity: 4
+      };
+      context.commit("addMember", member);
+    },
+    removeMember(context, id) {
+      //TODO remove member from database
+      context.commit("removeMember", id);
     }
   }
 });

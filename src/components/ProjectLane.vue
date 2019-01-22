@@ -1,32 +1,55 @@
 <template>
-    <div class="md-layout">
-      <div class="md-layout-item md-size-10">
-        <md-card>
+  <div class="md-layout">
+    <div class="md-layout-item md-size-10">
+      <md-card>
+        <md-card-header>
+          <div class="md-headline">{{project.name}}</div>
+        </md-card-header>
+        <md-card-actions>
+          <md-button
+            v-if="allowProjectDeletion"
+            class="md-icon-button"
+            @click="$emit('deleteProject')"
+          >
+            <md-icon>delete</md-icon>
+            <md-tooltip md-delay="300">und tschüssi ...</md-tooltip>
+          </md-button>
+          <!-- TODO: Disabled anzeigen aber Hilfetext "Du willst die Leute doch wohl nicht auf die Straße setzen?" -->
+          <div>
+            <md-button
+              v-if="!allowProjectDeletion"
+              :disabled="true"
+              class="md-icon-button"
+              @click="$emit('deleteProject')"
+            >
+              <md-icon>delete</md-icon>
+            </md-button>
+            <md-tooltip md-delay="300">Du willst die Leute doch wohl nicht auf die Straße setzen?</md-tooltip>
+          </div>
+        </md-card-actions>
+      </md-card>
+    </div>
+    <div class="md-layout-item md-size-80">
+      <draggable
+        class="draglist"
+        v-model="members"
+        :options="{group:'people'}"
+        @start="drag=true"
+        @end="drag=false"
+      >
+        <md-card class="dragcard md-with-hover" v-for="member in members" :key="member.mappingId">
           <md-card-header>
-            <div class="md-headline">{{project.name}}</div>
+            <div class="md-headline">{{member.name}}</div>
           </md-card-header>
           <md-card-actions>
-            <md-button v-if="allowProjectDeletion" class="md-icon-button" @click="$emit('deleteProject')">
-              <md-icon>delete</md-icon>
+            <md-button class="md-icon-button" @click="toBank(member)">
+              <md-icon>event_seat</md-icon>
             </md-button>
           </md-card-actions>
         </md-card>
-      </div>
-      <div class="md-layout-item md-size-80">
-        <draggable class="draglist" v-model="members" :options="{group:'people'}" @start="drag=true" @end="drag=false">
-          <md-card class="dragcard md-with-hover" v-for="member in members" :key="member.id" >
-            <md-card-header>
-              <div class="md-headline">{{member.name}}</div>
-            </md-card-header>
-            <md-card-actions>
-              <md-button class="md-icon-button" @click="toBank(member)">
-                <md-icon>event_seat</md-icon>
-              </md-button>
-            </md-card-actions>
-          </md-card>
-        </draggable>
-      </div>
+      </draggable>
     </div>
+  </div>
 </template>
 
 <script>
@@ -47,23 +70,24 @@ export default {
     }
   },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     toBank: function(member) {
-      let payload = { project: this.project, member: member } 
-      this.$store.dispatch('moveMemberToBank', payload)
+      let payload = { project: this.project, member: member };
+      this.$store.dispatch("moveMemberToBank", payload);
     }
-  }, 
+  },
   computed: {
     members: {
       get() {
-        return this.$store.getters.boardProjects.find(p=>p.id === this.project.id).members
+        return this.$store.getters.boardProjects.find(
+          p => p.id === this.project.id
+        ).members;
       },
       set(value) {
-        let payload = { project: this.project, newMembers: value }
-        this.$store.commit('updateMembers', payload )
+        let payload = { project: this.project, newMembers: value };
+        this.$store.commit("updateMembers", payload);
       }
     }
   }
