@@ -17,7 +17,7 @@ namespace DragSnackApi.Repositories
 
         public IEnumerable<ProjectModel> GetProjects()
         {
-            return Map(context.Project.Include(p => p.ProjectMember).ThenInclude(pm => pm.Member));
+            return Map(context.Project.Where(p => !p.BankProject).Include(p => p.ProjectMember).ThenInclude(pm => pm.Member));
         }
 
         public ProjectModel GetProjectById(string id)
