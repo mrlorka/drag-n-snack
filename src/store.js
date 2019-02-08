@@ -4,7 +4,7 @@ import VueResource from "vue-resource";
 
 Vue.use(Vuex);
 Vue.use(VueResource);
-const api = "http://localhost:3000";
+const api = "https://dragsnackapi.azurewebsites.net/api";
 
 export default new Vuex.Store({
   state: {
@@ -113,7 +113,7 @@ export default new Vuex.Store({
     },
     loadMembers(context) {
       Vue.http
-        .get(api + "/members")
+        .get(api + "/teammembers")
         .then(result => {
           context.commit("setMembers", result.data);
         })
@@ -135,7 +135,7 @@ export default new Vuex.Store({
       //TODO update members in database
       //put members
       Vue.http
-        .put(api + "/members", members)
+        .put(api + "/teammembers", members)
         .then(result => {
           // eslint-disable-next-line
           console.log(result);
@@ -155,7 +155,7 @@ export default new Vuex.Store({
         capacity: 4
       };
       Vue.http
-        .post(api + "/members", member)
+        .post(api + "/teammembers", member)
         .then(result => {
           // eslint-disable-next-line
           console.log(result);
@@ -166,11 +166,9 @@ export default new Vuex.Store({
       context.commit("addMember", member);
     },
     removeMember(context, id) {
-      //TODO remove member from all projects in database
-      //TODO remove member from database
       //delete members
       Vue.http
-        .delete(api + "/members/" + id)
+        .delete(api + "/teammembers/" + id)
         .then(result => {
           // eslint-disable-next-line
           console.log(result);
@@ -181,7 +179,6 @@ export default new Vuex.Store({
       context.commit("removeMember", id);
     },
     setProjects(context, projects) {
-      //TODO update projects in database
       //put projects
       context.commit("setProjects", projects);
     },
