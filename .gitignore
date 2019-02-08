@@ -1,6 +1,9 @@
 .DS_Store
-/front/node_modules
-/front/dist
+node_modules
+dist
+bin
+obj
+.vs
 
 # local env files
 .env.local
@@ -19,3 +22,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+*.user
