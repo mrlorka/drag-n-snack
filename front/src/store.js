@@ -18,77 +18,6 @@ export default new Vuex.Store({
       return state.projectsWithMembers.concat([state.bankProject]);
     }
   },
-  mutations: {
-    setProjects(state, projects) {
-      state.projects.splice(0, state.projects.length);
-      projects.forEach(project => {
-        state.projects.push(project);
-      });
-    },
-    setProjectsWithMembers(state, projects) {
-      state.projectsWithMembers.splice(0, state.projectsWithMembers.length);
-      projects.forEach(project => {
-        state.projectsWithMembers.push(project);
-      });
-    },
-    setBankProject(state, bankProject) {
-      state.bankProject = bankProject;
-    },
-    setMembers(state, members) {
-      state.members.splice(0, state.members.length);
-      members.forEach(member => {
-        state.members.push(member);
-      });
-    },
-    addProject(state, project) {
-      state.projects.push(project);
-    },
-    removeProject(state, id) {
-      let item = state.projects.find(p => p.id === id);
-      let index = state.projects.indexOf(item);
-      state.projects.splice(index, 1);
-    },
-    removeProjectFromBoard(state, id) {
-      let item = state.projectsWithMembers.find(p => p.id === id);
-      let index = state.projectsWithMembers.indexOf(item);
-      state.projectsWithMembers.splice(index, 1);
-    },
-    addMember(state, member) {
-      state.members.push(member);
-    },
-    removeMember(state, id) {
-      let item = state.members.find(p => p.id === id);
-      let index = state.members.indexOf(item);
-      state.members.splice(index, 1);
-    },
-    updateBankProjectMembers(state, payload) {
-      state.bankProject.members = payload.newMembers;
-    },
-    updateProjectMembers(state, payload) {
-      state.projectsWithMembers.find(p => p.id === payload.project.id).members =
-        payload.newMembers;
-    },
-    addProjectMember(state, payload) {
-      let project = state.bankProject;
-      if (state.bankProject.id !== payload.project.id) {
-        project = state.projectsWithMembers.find(
-          p => p.id === payload.project.id
-        );
-      }
-      project.members.push(payload.member);
-    },
-    removeProjectMember(state, payload) {
-      let project = state.bankProject;
-      if (state.bankProject.id !== payload.project.id) {
-        project = state.projectsWithMembers.find(
-          p => p.id === payload.project.id
-        );
-      }
-      let memberItem = project.members.find(m => m.id === payload.member.Id);
-      let memberIndex = project.members.indexOf(memberItem);
-      project.members.splice(memberIndex, 1);
-    }
-  },
   actions: {
     loadProjects(context) {
       Vue.http
@@ -165,6 +94,17 @@ export default new Vuex.Store({
         });
       context.commit("addMember", member);
     },
+    updateMember(context, member) {
+      Vue.http
+        .put(api + "/teammembers/" + member.id, member)
+        .then(result => {
+          // eslint-disable-next-line
+          console.log(result);
+        })
+        .catch(err => {
+          alert("error handling database: " + err);
+        });
+    },
     removeMember(context, id) {
       //delete members
       Vue.http
@@ -202,6 +142,17 @@ export default new Vuex.Store({
         });
       context.commit("addProject", project);
     },
+    updateProject(context, project) {
+      Vue.http
+        .put(api + "/projects/" + project.id, project)
+        .then(result => {
+          // eslint-disable-next-line
+          console.log(result);
+        })
+        .catch(err => {
+          alert("error handling database: " + err);
+        });
+    },
     removeProject(context, id) {
       //TODO move members to bank project in database
       //TODO remove project from database
@@ -227,6 +178,77 @@ export default new Vuex.Store({
         //put projectmembers
         context.commit("updateProjectMembers", payload);
       }
+    }
+  },
+  mutations: {
+    setProjects(state, projects) {
+      state.projects.splice(0, state.projects.length);
+      projects.forEach(project => {
+        state.projects.push(project);
+      });
+    },
+    setProjectsWithMembers(state, projects) {
+      state.projectsWithMembers.splice(0, state.projectsWithMembers.length);
+      projects.forEach(project => {
+        state.projectsWithMembers.push(project);
+      });
+    },
+    setBankProject(state, bankProject) {
+      state.bankProject = bankProject;
+    },
+    setMembers(state, members) {
+      state.members.splice(0, state.members.length);
+      members.forEach(member => {
+        state.members.push(member);
+      });
+    },
+    addProject(state, project) {
+      state.projects.push(project);
+    },
+    removeProject(state, id) {
+      let item = state.projects.find(p => p.id === id);
+      let index = state.projects.indexOf(item);
+      state.projects.splice(index, 1);
+    },
+    removeProjectFromBoard(state, id) {
+      let item = state.projectsWithMembers.find(p => p.id === id);
+      let index = state.projectsWithMembers.indexOf(item);
+      state.projectsWithMembers.splice(index, 1);
+    },
+    addMember(state, member) {
+      state.members.push(member);
+    },
+    removeMember(state, id) {
+      let item = state.members.find(p => p.id === id);
+      let index = state.members.indexOf(item);
+      state.members.splice(index, 1);
+    },
+    updateBankProjectMembers(state, payload) {
+      state.bankProject.members = payload.newMembers;
+    },
+    updateProjectMembers(state, payload) {
+      state.projectsWithMembers.find(p => p.id === payload.project.id).members =
+        payload.newMembers;
+    },
+    addProjectMember(state, payload) {
+      let project = state.bankProject;
+      if (state.bankProject.id !== payload.project.id) {
+        project = state.projectsWithMembers.find(
+          p => p.id === payload.project.id
+        );
+      }
+      project.members.push(payload.member);
+    },
+    removeProjectMember(state, payload) {
+      let project = state.bankProject;
+      if (state.bankProject.id !== payload.project.id) {
+        project = state.projectsWithMembers.find(
+          p => p.id === payload.project.id
+        );
+      }
+      let memberItem = project.members.find(m => m.id === payload.member.Id);
+      let memberIndex = project.members.indexOf(memberItem);
+      project.members.splice(memberIndex, 1);
     }
   }
 });

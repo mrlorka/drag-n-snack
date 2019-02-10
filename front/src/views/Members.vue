@@ -10,10 +10,10 @@
         </md-button>
         <md-field md-inline>
           <label>Neues Teammitglied</label>
-          <md-input v-model="member.name"></md-input>
+          <md-input v-model="member.name" @change="updateMember(member)"></md-input>
         </md-field>
         <md-field md-inline>
-          <md-input v-model="member.capacity" type="number"></md-input>
+          <md-input v-model="member.capacity" type="number" @change="updateMember(member)"></md-input>
         </md-field>
       </md-list-item>
     </md-list>
@@ -28,13 +28,15 @@ export default {
         return this.$store.state.members;
       },
       set(value) {
-        // stattdessen computed deep watch und bestimmung was sich geändert hat. Dafür dann put request absetzen
         this.$store.dispatch("setMembers", value);
       }
     }
   },
   methods: {
-    ...mapActions(["addMember", "removeMember"])
+    ...mapActions(["addMember", "removeMember"]),
+    updateMember(member) {
+      this.$store.dispatch("updateMember", member);
+    }
   },
   mounted: function() {
     this.$store.dispatch("loadMembers");

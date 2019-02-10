@@ -16,7 +16,7 @@
         </md-button>
         <md-field md-inline>
           <label>Neues Projekt</label>
-          <md-input v-model="project.name"></md-input>
+          <md-input v-model="project.name" @change="updateProject(project)"></md-input>
         </md-field>
       </md-list-item>
     </md-list>
@@ -37,7 +37,10 @@ export default {
   },
   methods: {
     //TODO beim Löschen des Projekts auch die Member auf die Bank setzen
-    ...mapActions(["addProject", "removeProject"])
+    ...mapActions(["addProject", "removeProject"]),
+    updateProject(project) {
+      this.$store.dispatch("updateProject", project);
+    }
   },
   mounted: function() {
     this.$store.dispatch("loadProjects");
