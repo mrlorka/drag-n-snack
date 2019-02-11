@@ -13,7 +13,7 @@ namespace DragSnackApi.Services
             ProjectRepository repo = new ProjectRepository();
             var bankProject = repo.GetBankProject();
 
-            ProjectMemberRepository projectMemberRepo = new ProjectMemberRepository();
+            ProjectTeammembersRepository projectMemberRepo = new ProjectTeammembersRepository();
             projectMemberRepo.ChangeProject(id, bankProject.Id);
 
             repo.DeleteProject(id);

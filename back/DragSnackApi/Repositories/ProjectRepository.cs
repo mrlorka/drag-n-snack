@@ -17,12 +17,12 @@ namespace DragSnackApi.Repositories
 
         public IEnumerable<ProjectModel> GetProjects()
         {
-            return Map(context.Project.Where(p => !p.BankProject).Include(p => p.ProjectMember).ThenInclude(pm => pm.Member));
+            return Map(context.Project.Where(p => !p.BankProject));
         }
 
         public ProjectModel GetProjectById(string id)
         {
-            var entity = context.Project.Include(p => p.ProjectMember).Where(t => t.Id == id).SingleOrDefault();
+            var entity = context.Project.Where(t => t.Id == id).SingleOrDefault();
             if (entity != null)
             {
                 return Map(entity);
@@ -35,7 +35,7 @@ namespace DragSnackApi.Repositories
 
         public ProjectModel GetBankProject()
         {
-            var entity = context.Project.Where(p => p.BankProject).Include(p => p.ProjectMember).ThenInclude(pm => pm.Member).SingleOrDefault();
+            var entity = context.Project.Where(p => p.BankProject).SingleOrDefault();
             if (entity != null)
             {
                 return Map(entity);
@@ -89,12 +89,10 @@ namespace DragSnackApi.Repositories
 
         public ProjectModel Map(Project projectEntity)
         {
-            IEnumerable<TeammemberModel> members = TeammemberRepository.Map(projectEntity.ProjectMember.Select(pm => pm.Member));
             ProjectModel model = new ProjectModel
             {
                 Id = projectEntity.Id,
-                Name = projectEntity.Name,
-                Members = members
+                Name = projectEntity.Name
             };
             return model;
         }

@@ -9,6 +9,6 @@ namespace DragSnackApi.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<TeammemberModel> Members { get; set; }
+        public IEnumerable<TeammemberMappingModel> Members { get; set; }
     }
 }

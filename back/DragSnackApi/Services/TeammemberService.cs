@@ -19,7 +19,7 @@ namespace DragSnackApi.Services
 
             for (int i = 0; i < model.Capacity; i++)
             {
-                ProjectMemberRepository projectMemberRepo = new ProjectMemberRepository();
+                ProjectTeammembersRepository projectMemberRepo = new ProjectTeammembersRepository();
                 projectMemberRepo.InsertProjectMember(bankProject.Id, member.Id);
             }
         }
@@ -27,7 +27,7 @@ namespace DragSnackApi.Services
         public void UpdateTeammember(string id, TeammemberModel newModel)
         {
             TeammemberRepository memberRepo = new TeammemberRepository();
-            ProjectMemberRepository projectMemberRepo = new ProjectMemberRepository(); 
+            ProjectTeammembersRepository projectMemberRepo = new ProjectTeammembersRepository(); 
             var oldModel = memberRepo.SelectTeammemberById(id);
 
             int capacityDifference = newModel.Capacity - oldModel.Capacity;
@@ -53,7 +53,7 @@ namespace DragSnackApi.Services
 
         public void DeleteTeammember(string id)
         {
-            ProjectMemberRepository projectMemberRepo = new ProjectMemberRepository();
+            ProjectTeammembersRepository projectMemberRepo = new ProjectTeammembersRepository();
             projectMemberRepo.DeleteMember(id);
 
             TeammemberRepository repo = new TeammemberRepository();

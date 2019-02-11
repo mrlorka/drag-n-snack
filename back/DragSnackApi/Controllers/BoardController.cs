@@ -16,9 +16,9 @@ namespace DragSnackApi.Controllers
         [HttpGet]
         public BoardModel Get()
         {
-            ProjectRepository repo = new ProjectRepository();
-            var projects = repo.GetProjects();
-            var bankProject = repo.GetBankProject();
+            ProjectTeammembersRepository repo = new ProjectTeammembersRepository();
+            var projects = repo.GetProjectsWithMembers();
+            var bankProject = repo.GetBankProjectWithMembers();
 
             return new BoardModel
             {
