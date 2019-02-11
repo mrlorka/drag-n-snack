@@ -39,7 +39,7 @@
       >
         <md-card class="dragcard md-with-hover" v-for="member in members" :key="member.mappingId">
           <md-card-header>
-            <div class="md-headline">{{member.name}}</div>
+            <div class="md-headline">{{member.member.name}}</div>
           </md-card-header>
           <md-card-actions>
             <md-button class="md-icon-button" @click="toBank(member)">
