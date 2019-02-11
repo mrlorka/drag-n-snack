@@ -52,10 +52,10 @@ export default new Vuex.Store({
         });
     },
     moveMemberToBank(context, payload) {
-      //TODO move member in database
-      //??
       Vue.http
-        .put(api + "/teammembers/tobank" + payload.member.id)
+        .put(
+          api + "/projectteammembers/membertobank/" + payload.member.mappingId
+        )
         .then(result => {
           // eslint-disable-next-line
           console.log(result);
@@ -69,7 +69,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           alert("error handling database: " + JSON.stringify(err));
-        });      
+        });
     },
     setMembers(context, members) {
       //put members
@@ -174,7 +174,10 @@ export default new Vuex.Store({
     },
     updateProjectMembers(context, payload) {
       Vue.http
-        .put(api + "/project/updateMembers" + payload.project.id, payload.members)
+        .put(
+          api + "/projectteammembers/assignmembers/" + payload.project.id,
+          payload.newMembers
+        )
         .then(result => {
           // eslint-disable-next-line
           console.log(result);
@@ -249,6 +252,7 @@ export default new Vuex.Store({
       project.members.push(payload.member);
     },
     removeProjectMember(state, payload) {
+      //TODO hier stimmt noch was nicht, wenn man ToBank aufruft...
       let project = state.bankProject;
       if (state.bankProject.id !== payload.project.id) {
         project = state.projectsWithMembers.find(
