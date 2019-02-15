@@ -3,17 +3,23 @@
     "projects": [
       {
         "id": "9bf3f2df-0353-4a12-9e8b-bcfcf940dfd8",
-        "name": "Projekt 1",
+        "name": "Pump You Up",
         "members": [
           {
             "mappingId": "bcbc2311-206e-4023-8db5-be0331cbc14d",
-            "id": "843bdb8f-6480-4020-a2c2-6318d5d72d35",
-            "name": "Hans"
+            "member": {
+              "id": "843bdb8f-6480-4020-a2c2-6318d5d72d35",
+              "name": "Hans",
+              "capacity": 3
+            }
           },
           {
             "mappingId": "5b414f5c-e079-4f3b-846d-239c38f3767f",
-            "id": "843bdb8f-6480-4020-a2c2-6318d5d72d35",
-            "name": "Hans"
+            "member": {
+              "id": "e00ae3de-ed68-4caf-b491-75222e73d381",
+              "name": "Franz",
+              "capacity": 2
+            }
           }
         ]
       },
@@ -29,18 +35,27 @@
       "members": [
         {
           "mappingId": "c0ca7201-79a5-43f3-983e-098bcdaf2f73",
-          "id": "e00ae3de-ed68-4caf-b491-75222e73d381",
-          "name": "Gans"
+          "member": {
+            "id": "e00ae3de-ed68-4caf-b491-75222e73d381",
+            "name": "Franz",
+            "capacity": 2
+          }
         },
         {
           "mappingId": "e33186be-b93e-472d-b21d-3dce18a4f9a8",
-          "id": "843bdb8f-6480-4020-a2c2-6318d5d72d35",
-          "name": "Hans"
+          "member": {
+            "id": "843bdb8f-6480-4020-a2c2-6318d5d72d35",
+            "name": "Hans",
+            "capacity": 3
+          }
         },
         {
           "mappingId": "90c94b1e-a5b1-4a1e-ada3-c7462534784c",
-          "id": "843bdb8f-6480-4020-a2c2-6318d5d72d35",
-          "name": "Hans"
+          "member": {
+            "id": "843bdb8f-6480-4020-a2c2-6318d5d72d35",
+            "name": "Hans",
+            "capacity": 3
+          }
         }
       ]
     }
@@ -48,7 +63,7 @@
   "projects": [
     {
       "id": "9bf3f2df-0353-4a12-9e8b-bcfcf940dfd8",
-      "name": "Projekt 1",
+      "name": "Pump You Up",
       "position": 0
     },
     {
@@ -57,16 +72,16 @@
       "position": 1
     }
   ],
-  "members": [
+  "teammembers": [
     {
       "id": "843bdb8f-6480-4020-a2c2-6318d5d72d35",
       "name": "Hans",
-      "capacity": 4
+      "capacity": 3
     },
     {
       "id": "e00ae3de-ed68-4caf-b491-75222e73d381",
-      "name": "Gans",
-      "capacity": 1
+      "name": "Franz",
+      "capacity": 2
     }
   ]
 }

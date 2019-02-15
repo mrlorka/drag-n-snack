@@ -5,7 +5,8 @@ import uuid from "uuid";
 
 Vue.use(Vuex);
 Vue.use(VueResource);
-const api = "https://dragsnackapi.azurewebsites.net/api";
+// const api = "https://dragsnackapi.azurewebsites.net/api";
+const api = "http://localhost/api";
 
 export default new Vuex.Store({
   state: {
