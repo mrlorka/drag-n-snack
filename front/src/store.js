@@ -5,8 +5,8 @@ import uuid from "uuid";
 
 Vue.use(Vuex);
 Vue.use(VueResource);
-// const api = "https://dragsnackapi.azurewebsites.net/api";
-const api = "http://localhost/api";
+const api = "https://dragsnackapi.azurewebsites.net/api";
+// const api = "http://localhost/api";
 
 export default new Vuex.Store({
   state: {
@@ -253,14 +253,15 @@ export default new Vuex.Store({
       project.members.push(payload.member);
     },
     removeProjectMember(state, payload) {
-      //TODO hier stimmt noch was nicht, wenn man ToBank aufruft...
       let project = state.bankProject;
       if (state.bankProject.id !== payload.project.id) {
         project = state.projectsWithMembers.find(
           p => p.id === payload.project.id
         );
       }
-      let memberItem = project.members.find(m => m.id === payload.member.Id);
+      let memberItem = project.members.find(
+        m => m.mappingId === payload.member.mappingId
+      );
       let memberIndex = project.members.indexOf(memberItem);
       project.members.splice(memberIndex, 1);
     }
