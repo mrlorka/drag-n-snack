@@ -5,14 +5,14 @@
 npm install
 ```
 
+### Setup Mock DB
+```
+npm run mock
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
-```
-
-### Setup Mock DB
-```
-json-server --watch db.json
 ```
 
 ### Compiles and minifies for production
