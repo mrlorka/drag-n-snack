@@ -8,6 +8,7 @@ obj
 # local env files
 .env.local
 .env.*.local
+*.temp.json
 
 # Log files
 npm-debug.log*
