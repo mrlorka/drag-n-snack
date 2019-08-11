@@ -54,6 +54,7 @@
 
 <script>
 import draggable from "vuedraggable";
+import * as Sentry from '@sentry/browser';
 export default {
   components: {
     draggable
@@ -75,6 +76,7 @@ export default {
   methods: {
     toBank: function(member) {
       let payload = { project: this.project, member: member };
+      Sentry.captureMessage("member moved to bank");
       this.$store.dispatch("moveMemberToBank", payload);
     }
   },
